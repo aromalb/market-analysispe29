@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Kerala kitchen for Huntingdon: market dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#f7f5ef;--card:#fff;--ink:#14261f;--mute:#5c6b64;--line:#e2ded2;--green:#0f3d33;--gold:#e0a526;--chili:#c2412d;--sand:#b9ad93;--sky:#2b7a78;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1714;--card:#14241f;--ink:#eef1ea;--mute:#a3b3aa;--line:#254038;--sand:#7c765f}}
+:root[data-theme="dark"]{--bg:#0c1714;--card:#14241f;--ink:#eef1ea;--mute:#a3b3aa;--line:#254038;--sand:#7c765f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55;font-size:16px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+header{background:linear-gradient(135deg,#0f3d33,#1d5a3f 60%,#4a5a2b);color:#fff;padding:44px 0 36px}
+h1{font-size:clamp(28px,6vw,48px);line-height:1.08;margin:0 0 14px;font-weight:800;max-width:17em}
+header p{max-width:36em;color:#d5e2da;margin:0 0 24px;font-size:17px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.kpi b{display:block;font-size:34px;color:var(--gold);font-weight:800;line-height:1}
+.kpi span{font-size:13px;color:#c5d6cc}
+section{padding:36px 0 6px}
+h2{font-size:clamp(22px,4vw,30px);margin:0 0 6px;line-height:1.15}
+.sub{color:var(--mute);margin:0 0 18px;max-width:40em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.card h3{margin:0 0 4px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.stat b{font-size:28px;display:block;font-weight:800}
+.stat span{color:var(--mute);font-size:14px}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--mute);font-family:inherit;font-size:11px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--mute);margin:8px 0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.tip{background:var(--green);color:#fff;border-radius:10px;padding:12px 14px;min-height:64px;font-size:15px}
+.gap{background:var(--chili);color:#fff;border-radius:14px;padding:20px;margin-bottom:16px}
+.gap h3{margin:0 0 6px;font-size:20px}
+.bar{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:14px}
+.bar .n{width:96px;flex:none}
+.track{flex:1;position:relative;height:26px;background:color-mix(in srgb,var(--line) 50%,transparent);border-radius:6px}
+.fill{position:absolute;height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-weight:600;font-size:12px;color:#fff;white-space:nowrap}
+.pb .n{width:110px}
+.pb .fill{color:#14261f}
+label{display:flex;justify-content:space-between;font-size:14px;margin-top:12px}
+input[type=range]{width:100%;accent-color:var(--green)}
+.res{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;text-align:center}
+.res div{border-radius:10px;padding:10px 4px;background:color-mix(in srgb,var(--gold) 18%,transparent)}
+.res b{display:block;font-size:20px}
+.res span{font-size:12px;color:var(--mute)}
+.swot{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.swot .card{border-left:5px solid var(--c);margin:0}
+.swot ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--mute)}
+.steps{counter-reset:s;padding:0;list-style:none}
+.steps li{counter-increment:s;padding:12px 0 12px 44px;position:relative;border-top:1px solid var(--line)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#14261f;font-weight:800;display:grid;place-items:center}
+.steps b{display:block}.steps span{color:var(--mute);font-size:14px}
+footer{padding:30px 0;color:var(--mute);font-size:12px}
+.note{font-size:12px;color:var(--mute);margin-top:8px}
+@media(max-width:480px){.bar .n,.pb .n{width:78px;font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>A Kerala kitchen for Huntingdon: the one dish the town's curry houses don't serve</h1>
+<p>Nine Indian and South Asian restaurants trade in PE29. None cook Kerala food. This page shows what that gap is worth, in plain numbers.</p>
+<div class="kpis">
+<div class="kpi"><b>0</b><span>Kerala or South Indian restaurants in PE29</span></div>
+<div class="kpi"><b>4.2</b><span>Average Google rating of the 9 rivals</span></div>
+<div class="kpi"><b>+19%</b><span>UK biryani demand growth, 2026</span></div>
+<div class="kpi"><b>25.4k</b><span>People in Huntingdon town</span></div>
+</div></div></header>
+
+<main class="wrap">
+<section>
+<h2>Who lives here</h2>
+<p class="sub">A small, well-off commuter town: a good fit for a thoughtful, mid-priced restaurant rather than a cheap high-volume one.</p>
+<div class="grid">
+<div class="card stat"><b>25,428</b><span>Huntingdon town population (2021 Census)</span></div>
+<div class="card stat"><b>190,619</b><span>Huntingdonshire district population, 2024 (ONS)</span></div>
+<div class="card stat"><b>£295k</b><span>Average PE29 house price, 2026</span></div>
+<div class="card stat"><b>&lt;55 min</b><span>Train to London King's Cross / St Pancras</span></div>
+</div></section>
+
+<section>
+<h2>The competition, sorted by machine learning</h2>
+<p class="sub">Each bubble is a rival. A clustering algorithm (k-means, running live in your browser) groups them by rating and popularity. Tap a bubble to learn more.</p>
+<div class="card">
+<svg id="bub" viewBox="0 0 560 330" role="img" aria-label="Bubble chart of competitor rating versus review count"></svg>
+<div class="legend" id="leg"></div>
+<div class="tip" id="tip">Tap a bubble to see who it is.</div>
+<p class="note">Review counts are read from the source chart and are approximate. Clusters are computed from rating and log of review count. With only 9 venues this is a simple grouping, not a forecast.</p>
+</div>
+<div class="gap"><h3>The gap, in plain terms</h3>
+Huntingdon diners can already get a good North Indian curry. What they can't get is Kerala food: coconut, curry leaf, seafood, appams, fish moilee and beef fry. It's named a "cuisine to know for 2026" by Datassential.</div>
+</section>
+
+<section>
+<h2>Is the demand real?</h2>
+<p class="sub">Across the UK, people are moving toward specific regional dishes rather than generic "Indian".</p>
+<div class="grid">
+<div class="card"><h3>Dish demand growth, year on year, 2026</h3><div id="dem"></div></div>
+<div class="card"><h3>Britain's favourite foreign cuisines, Jan 2026</h3><div id="fav"></div><p class="note">Indian is 3rd nationally: a big, familiar audience to convert.</p></div>
+</div></section>
+
+<section>
+<h2>Is the price right?</h2>
+<p class="sub">The proposed menu is cheaper than the local norm at the entry point, and sits within the range of UK Kerala specialists at the top.</p>
+<div class="card pb" id="price"><div class="legend"><span><i class="dot" style="background:var(--gold)"></i>Your proposal</span><span><i class="dot" style="background:var(--sand)"></i>Huntingdon norm</span><span><i class="dot" style="background:var(--sky)"></i>UK Kerala specialist</span></div></div>
+</section>
+
+<section>
+<h2>Try it: what could a month look like?</h2>
+<p class="sub">Move the sliders. A Monte Carlo simulation (2,000 random months) shows a likely range of sales, not a single guess.</p>
+<div class="card">
+<label>Seats <b id="vs"></b></label><input id="s" type="range" min="20" max="80" value="40">
+<label>Open nights per week <b id="vn"></b></label><input id="n" type="range" min="3" max="7" value="5">
+<label>Typical spend per person <b id="vp"></b></label><input id="p" type="range" min="14" max="30" value="20">
+<svg id="hist" viewBox="0 0 560 150" style="margin-top:12px"></svg>
+<div class="res"><div><b id="r1"></b><span>Slow month</span></div><div><b id="r2"></b><span>Typical month</span></div><div><b id="r3"></b><span>Busy month</span></div></div>
+<p class="note">Sales before costs, not profit. Assumes 1 to 2 sittings a night and 35% to 80% full seats, chosen at random. These are illustrative assumptions. Replace them with your site's real figures.</p>
+</div></section>
+
+<section>
+<h2>Strengths and risks</h2>
+<div class="swot">
+<div class="card" style="--c:var(--green)"><h3>Strengths</h3><ul><li>No direct Kerala rivals in PE29</li><li>Prices undercut the local entry point</li><li>Strong food and visual identity for marketing</li></ul></div>
+<div class="card" style="--c:var(--chili)"><h3>Weaknesses</h3><ul><li>Few locals know Kerala food by name</li><li>Needs specialist ingredients: curry leaf, coconut, red rice</li><li>Nine rivals have loyal customers and many reviews</li></ul></div>
+<div class="card" style="--c:var(--gold)"><h3>Opportunities</h3><ul><li>Biryani up 19% and regional Indian food rising fastest</li><li>54% to 76% of UK diners seek out new cuisines</li><li>Affluent commuters support mid-tier pricing</li></ul></div>
+<div class="card" style="--c:var(--sand)"><h3>Threats</h3><ul><li>Net 3 to 4 UK hospitality venues closing daily in early 2026</li><li>Mamas and Indian Palace hold review-driven loyalty</li><li>Delivery-only rivals compete hard on price</li></ul></div>
+</div></section>
+
+<section>
+<h2>What to do next</h2>
+<ol class="steps">
+<li><b>Lead with "Kerala", not "Indian"</b><span>It's the clearest difference from nine generalist rivals.</span></li>
+<li><b>Anchor the menu with 3 to 4 signature dishes</b><span>Appam and stew, fish moilee, beef fry and a Kerala-style biryani.</span></li>
+<li><b>Use starters as the trial</b><span>£2.99 to £4.99 small plates (banana chips, cutlets, pepper prawns) let new diners try before committing to a main.</span></li>
+<li><b>Build a full financial model</b><span>Add real rent, staffing and food costs for your site.</span></li>
+</ol></section>
+</main>
+<footer><div class="wrap">Sources: Google Places (Sept 2026), ONS, Belvoir, Mordor Intelligence, Tastewise, Datassential, YouGov, Bidfood, Seafish (2026). Market feasibility briefing, September 2026.</div></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const V=[["Indian Palace",4.5,125,"Pan-Indian"],["Mamas Indian Cuisine",4.5,200,"All-you-can-eat value"],["Rajpoot Indian",4.3,210,"Pan-Indian"],["Planet Spice",4.3,225,"Pan-Indian with bar"],["Barley Mow",4.3,790,"Pub curry"],["The Darjeeling",4.0,280,"Bangladeshi"],["Gurkha",5.0,275,"South Asian"],["Curry Hut",3.3,135,"Budget delivery"],["Bayleaf",3.2,95,"Delivery only"]];
+// k-means (k=3) on rating and log(reviews), scaled 0-1
+const F=V.map(v=>[(v[1]-3)/2,Math.log(v[2])/Math.log(800)]);
+let C=[F[7],F[1],F[6]];let A=[];
+for(let it=0;it<20;it++){A=F.map(f=>C.map(c=>(f[0]-c[0])**2+(f[1]-c[1])**2).reduce((b,d,i,a)=>d<a[b]?i:b,0));
+C=C.map((c,k)=>{const m=F.filter((_,i)=>A[i]==k);return m.length?[m.reduce((s,x)=>s+x[0],0)/m.length,m.reduce((s,x)=>s+x[1],0)/m.length]:c})}
+const order=[0,1,2].sort((a,b)=>C[a][0]-C[b][0]);
+const names=["Budget and delivery","Steady mid-field","Top-rated favourites"],cols=["#c2412d","#e0a526","#2b7a78"];
+const grp=k=>order.indexOf(k);
+const X=r=>50+(r-3)/2.4*490,Y=n=>290-n/850*270;
+let s='';for(let r=3;r<=5;r+=.5)s+=`<line x1="${X(r)}" x2="${X(r)}" y1="20" y2="290" stroke="var(--line)"/><text x="${X(r)}" y="308" text-anchor="middle">${r.toFixed(1)}</text>`;
+for(let n=0;n<=800;n+=200)s+=`<line x1="50" x2="540" y1="${Y(n)}" y2="${Y(n)}" stroke="var(--line)"/><text x="44" y="${Y(n)+4}" text-anchor="end">${n}</text>`;
+s+=`<text x="295" y="326" text-anchor="middle">Google rating</text><text x="12" y="155" transform="rotate(-90 12 155)" text-anchor="middle">Number of reviews</text>`;
+V.forEach((v,i)=>{const g=grp(A[i]);s+=`<g style="cursor:pointer" tabindex="0" data-i="${i}"><circle cx="${X(v[1])}" cy="${Y(v[2])}" r="${7+v[2]/60}" fill="${cols[g]}" fill-opacity=".75" stroke="${cols[g]}"/><text x="${X(v[1])}" y="${Y(v[2])-12-v[2]/60}" text-anchor="middle" style="font-size:10px">${v[0].split(" ")[0]}</text></g>`});
+s+=`<rect x="${X(4.7)}" y="${Y(700)}" width="${X(5.2)-X(4.7)}" height="${Y(0)-Y(700)-40}" rx="8" fill="none" stroke="var(--chili)" stroke-dasharray="4 3"/><text x="${(X(4.7)+X(5.2))/2}" y="${Y(560)}" text-anchor="middle" style="fill:var(--chili);font-weight:700">Kerala: 0 rivals</text>`;
+$("bub").innerHTML=s;
+$("leg").innerHTML=names.map((n,i)=>`<span><i class="dot" style="background:${cols[i]}"></i>${n}</span>`).join("");
+const show=i=>{const v=V[i];$("tip").innerHTML=`<b>${v[0]}</b>: ${v[3]}. Rated ${v[1]} from about ${v[2]} reviews. Machine-learning group: <b>${names[grp(A[i])]}</b>. None of them serve Kerala food.`};
+document.querySelectorAll("#bub g").forEach(g=>{g.onclick=()=>show(g.dataset.i);g.onkeydown=e=>{if(e.key=="Enter")show(g.dataset.i)}});
+
+function bars(id,d,max,unit){$(id).innerHTML=d.map(x=>{const w=Math.abs(x[1])/max*100;return`<div class="bar"><span class="n">${x[0]}</span><div class="track"><div class="fill" style="width:${Math.max(w,12)}%;background:${x[2]}">${x[1]>0&&unit=="%"?"+":""}${x[1]}${unit}</div></div></div>`}).join("")}
+bars("dem",[["Korean BBQ",29,"var(--green)"],["Biryani",19,"var(--gold)"],["Espresso martini",-8,"var(--sand)"],["Craft beer",-11,"var(--sand)"]],30,"%");
+bars("fav",[["Italian",24,"var(--sand)"],["Chinese",19,"var(--sand)"],["Indian",17,"var(--gold)"]],24,"%");
+
+const P=[["Starters",[["Your proposal",2.99,7.99,"var(--gold)"],["Huntingdon norm",3.5,6.5,"var(--sand)"],["UK Kerala",4.5,8,"var(--sky)"]]],["Mains",[["Your proposal",6.99,13,"var(--gold)"],["Huntingdon norm",8,14,"var(--sand)"],["UK Kerala",9,15,"var(--sky)"]]]];
+$("price").insertAdjacentHTML("beforeend",P.map(g=>`<h3 style="margin-top:14px">${g[0]}</h3>`+g[1].map(r=>`<div class="bar"><span class="n">${r[0]}</span><div class="track"><div class="fill" style="left:${r[1]/16*100}%;width:${(r[2]-r[1])/16*100}%;background:${r[3]};min-width:70px;padding-left:4px;font-size:11px">£${r[1].toFixed(2)}–£${r[2].toFixed(2)}</div></div></div>`).join("")).join("")+`<p class="note">Scale runs from £0 to £16.</p>`);
+
+// Monte Carlo
+const tri=(a,m,b)=>{const u=Math.random(),c=(m-a)/(b-a);return u<c?a+Math.sqrt(u*(b-a)*(m-a)):b-Math.sqrt((1-u)*(b-a)*(b-m))};
+const money=x=>"£"+Math.round(x/1000)+"k";
+function sim(){const seats=+$("s").value,nights=+$("n").value,spend=+$("p").value;$("vs").textContent=seats;$("vn").textContent=nights;$("vp").textContent="£"+spend;
+const R=[];for(let i=0;i<2000;i++){const occ=tri(.35,.55,.8),turns=tri(1,1.4,2),sp=spend*tri(.85,1,1.15);R.push(seats*occ*turns*sp*nights*4.3)}
+R.sort((a,b)=>a-b);const q=p=>R[Math.floor(p*(R.length-1))];
+$("r1").textContent=money(q(.1));$("r2").textContent=money(q(.5));$("r3").textContent=money(q(.9));
+const lo=R[0],hi=R[R.length-1],B=24,h=Array(B).fill(0);R.forEach(x=>h[Math.min(B-1,Math.floor((x-lo)/(hi-lo)*B))]++);const m=Math.max(...h);
+let o='';h.forEach((c,i)=>{const mid=lo+(i+.5)/B*(hi-lo);const inr=mid>=q(.1)&&mid<=q(.9);o+=`<rect x="${20+i*22}" y="${130-c/m*110}" width="19" height="${c/m*110}" rx="3" fill="${inr?"var(--gold)":"var(--sand)"}"/>`});
+o+=`<text x="20" y="147">${money(lo)}</text><text x="540" y="147" text-anchor="end">${money(hi)}</text><text x="280" y="147" text-anchor="middle">Monthly sales (gold = middle 80% of outcomes)</text>`;$("hist").innerHTML=o}
+["s","n","p"].forEach(i=>$(i).oninput=sim);sim();
+</script>
+</body>
+</html>
